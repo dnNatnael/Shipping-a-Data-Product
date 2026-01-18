@@ -1,0 +1,54 @@
+# Dagster configuration for Ethiopian Medical Business Data Pipeline
+
+# Python modules that contain job definitions
+python_modules:
+  - pipeline
+
+# Directories to watch for changes
+code_directory: .
+
+# Telemetry configuration (disable for privacy)
+telemetry:
+  enabled: false
+
+# Storage configuration
+storage:
+  # Use local file system storage for development
+  root: dagster_home
+
+# Scheduler configuration
+scheduler:
+  # Use the built-in Dagster scheduler
+  module: dagster.daemon.run
+
+# Run configuration
+run_coordinator:
+  # Use the default run coordinator
+  module: dagster.core.run_coordinator
+
+# Webserver configuration
+webserver:
+  host: 0.0.0.0
+  port: 3000
+  # Enable GraphQL playground for development
+  graphql_playground: true
+  # Enable CORS for development
+  cors:
+    allow_origins:
+      - "*"
+    allow_credentials: true
+
+# Logging configuration
+loggers:
+  root:
+    level: INFO
+  dagster:
+    level: INFO
+  dagster.core:
+    level: INFO
+
+# Execution configuration
+execution:
+  # Use multi-process execution for better performance
+  multiprocess:
+    max_concurrent: 4
