@@ -37,3 +37,42 @@ sources:
             description: "Source JSON file path"
           - name: loaded_at
             description: "When the message was loaded to database"
+      - name: yolo_detections
+        description: "YOLO object detection results from image analysis"
+        columns:
+          - name: message_id
+            description: "Unique identifier for each message"
+            tests:
+              - not_null
+          - name: channel_name
+            description: "Name of the Telegram channel"
+            tests:
+              - not_null
+          - name: image_path
+            description: "Path to the analyzed image"
+          - name: image_category
+            description: "Content classification (promotional, product_display, lifestyle, other)"
+            tests:
+              - not_null
+          - name: total_detections
+            description: "Total number of objects detected"
+            tests:
+              - not_null
+          - name: person_count
+            description: "Number of persons detected"
+            tests:
+              - not_null
+          - name: product_count
+            description: "Number of product-like objects detected"
+            tests:
+              - not_null
+          - name: max_confidence
+            description: "Highest confidence score among detections"
+          - name: avg_confidence
+            description: "Average confidence score across detections"
+          - name: top_class
+            description: "Object class with highest confidence"
+          - name: top_confidence
+            description: "Confidence score of top detection"
+          - name: processing_timestamp
+            description: "When the image was processed by YOLO"
