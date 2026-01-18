@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: stg_telegram_messages
+    description: |
+      Staging model for telegram messages that cleans and standardizes raw data from the JSON files.
+      This model performs data validation, type casting, and adds calculated fields for analysis.
+      Key transformations include:
+      - Converting message_id to integer
+      - Standardizing channel names to lowercase
+      - Parsing and validating message dates
+      - Calculating message_length and has_image flags
+      - Extracting date components for time-based analysis
+
+  - name: dim_channels
+    description: |
+      Channel dimension table containing aggregated statistics and classifications for each Telegram channel.
+      This table enables analysis of channel performance and content patterns.
+      Key attributes include:
+      - Channel classification (Pharmaceutical, Cosmetics, Medical, Other)
+      - Activity metrics (total posts, average views, posting frequency)
+      - Media engagement statistics (image and media percentages)
+      - Temporal coverage (first and last post dates)
+
+  - name: dim_dates
+    description: |
+      Comprehensive date dimension table supporting time-based analysis of message patterns.
+      Contains calendar attributes and temporal classifications for trend analysis.
+      Key features include:
+      - Standard calendar dimensions (year, quarter, month, week, day)
+      - Weekend/weekday classification
+      - Date format variations for reporting
+      - Week and year offset calculations
+
+  - name: fct_messages
+    description: |
+      Central fact table containing all message data with foreign keys to dimension tables.
+      This table serves as the foundation for analytical queries and business insights.
+      Structure follows dimensional modeling best practices:
+      - Grain: One row per message
+      - Foreign keys to dim_channels and dim_dates for dimensional analysis
+      - All message metrics and attributes for comprehensive analysis
+
+sources:
+  - name: raw
+    description: |
+      Raw data schema containing telegram messages loaded from JSON files.
+      This source represents the unprocessed data extracted from Telegram channels.
+    tables:
+      - name: telegram_messages
+        description: |
+          Raw telegram messages containing all scraped fields from the Telegram API.
+          This table serves as the foundation for the data warehouse transformation pipeline.

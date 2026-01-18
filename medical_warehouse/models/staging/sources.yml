@@ -1,0 +1,39 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw telegram data loaded from JSON files"
+    database: medical_warehouse
+    schema: raw
+    tables:
+      - name: telegram_messages
+        description: "Raw telegram messages with all scraped fields"
+        columns:
+          - name: message_id
+            description: "Unique identifier for each message"
+            tests:
+              - not_null
+          - name: channel_name
+            description: "Name of the Telegram channel"
+            tests:
+              - not_null
+          - name: message_date
+            description: "Timestamp when the message was posted"
+            tests:
+              - not_null
+          - name: message_text
+            description: "Full text content of the message"
+          - name: has_media
+            description: "Whether the message contains media"
+          - name: image_path
+            description: "Path to downloaded image if present"
+          - name: views
+            description: "Number of views on the message"
+          - name: forwards
+            description: "Number of times the message was forwarded"
+          - name: scraped_at
+            description: "When the message was scraped"
+          - name: file_path
+            description: "Source JSON file path"
+          - name: loaded_at
+            description: "When the message was loaded to database"

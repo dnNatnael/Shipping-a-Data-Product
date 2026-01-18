@@ -1,0 +1,23 @@
+medical_warehouse:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      port: 5432
+      user: postgres
+      password: password
+      dbname: medical_warehouse
+      schema: analytics
+      threads: 4
+      keepalives_idle: 0
+    prod:
+      type: postgres
+      host: localhost
+      port: 5432
+      user: postgres
+      password: password
+      dbname: medical_warehouse
+      schema: analytics_prod
+      threads: 8
+      keepalives_idle: 0
