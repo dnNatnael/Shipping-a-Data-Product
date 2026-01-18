@@ -1,0 +1,68 @@
+version: 2
+
+models:
+  - name: stg_telegram_messages
+    description: "Staging model for telegram messages - cleans and standardizes raw data"
+    columns:
+      - name: message_id
+        description: "Unique identifier for each message"
+        tests:
+          - not_null
+      - name: channel_name
+        description: "Name of the Telegram channel (cleaned and lowercase)"
+        tests:
+          - not_null
+      - name: message_date
+        description: "Timestamp when the message was posted"
+        tests:
+          - not_null
+      - name: message_text
+        description: "Cleaned message text content"
+      - name: has_media
+        description: "Whether the message contains media (boolean)"
+        tests:
+          - not_null
+      - name: image_path
+        description: "Path to downloaded image if present"
+      - name: view_count
+        description: "Number of views on the message"
+        tests:
+          - not_null
+      - name: forward_count
+        description: "Number of times the message was forwarded"
+        tests:
+          - not_null
+      - name: scraped_at
+        description: "When the message was scraped"
+      - name: message_length
+        description: "Length of message in characters (calculated)"
+        tests:
+          - not_null
+      - name: has_image
+        description: "Whether message has an image (calculated)"
+        tests:
+          - not_null
+      - name: message_date_only
+        description: "Date part of message timestamp"
+        tests:
+          - not_null
+      - name: message_year
+        description: "Year component of message date"
+        tests:
+          - not_null
+      - name: message_month
+        description: "Month component of message date"
+        tests:
+          - not_null
+      - name: message_day
+        description: "Day component of message date"
+        tests:
+          - not_null
+      - name: day_of_week
+        description: "Day of week (0=Sunday, 6=Saturday)"
+        tests:
+          - not_null
+      - name: file_path
+        description: "Source JSON file path"
+      - name: loaded_at
+        description: "When the message was loaded to database"

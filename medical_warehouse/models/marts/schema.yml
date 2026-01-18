@@ -1,0 +1,132 @@
+version: 2
+
+models:
+  - name: dim_channels
+    description: "Channel dimension table with channel statistics and classifications"
+    columns:
+      - name: channel_key
+        description: "Surrogate key for channel dimension"
+        tests:
+          - unique
+          - not_null
+      - name: channel_name
+        description: "Name of the Telegram channel"
+        tests:
+          - unique
+          - not_null
+      - name: channel_type
+        description: "Channel classification (Pharmaceutical, Cosmetics, Medical, Other)"
+      - name: first_post_date
+        description: "Date of first message in channel"
+      - name: last_post_date
+        description: "Date of last message in channel"
+      - name: total_posts
+        description: "Total number of messages in channel"
+        tests:
+          - not_null
+      - name: avg_views
+        description: "Average view count per message"
+      - name: total_views
+        description: "Total views across all messages"
+      - name: posts_with_images
+        description: "Number of posts containing images"
+      - name: posts_with_media
+        description: "Number of posts containing any media"
+      - name: avg_message_length
+        description: "Average message length in characters"
+      - name: image_percentage
+        description: "Percentage of posts with images"
+      - name: media_percentage
+        description: "Percentage of posts with media"
+
+  - name: dim_dates
+    description: "Date dimension table for time-based analysis"
+    columns:
+      - name: date_key
+        description: "Surrogate key for date dimension"
+        tests:
+          - unique
+          - not_null
+      - name: full_date
+        description: "Full calendar date"
+        tests:
+          - unique
+          - not_null
+      - name: year
+        description: "Calendar year"
+      - name: month
+        description: "Calendar month (1-12)"
+      - name: day
+        description: "Day of month (1-31)"
+      - name: quarter
+        description: "Calendar quarter (1-4)"
+      - name: day_of_week_num
+        description: "Day of week number (0=Sunday, 6=Saturday)"
+      - name: day_name
+        description: "Day of week name"
+      - name: month_name
+        description: "Month name"
+      - name: week_of_year
+        description: "Week number in year"
+      - name: day_of_year
+        description: "Day number in year"
+      - name: is_weekend
+        description: "Whether date falls on weekend"
+      - name: is_weekday
+        description: "Whether date falls on weekday"
+      - name: year_month
+        description: "Year-month combination (YYYY-MM)"
+      - name: year_quarter
+        description: "Year-quarter combination (YYYY-QX)"
+      - name: day_of_week_offset
+        description: "Days since start of week"
+
+  - name: fct_messages
+    description: "Fact table containing all message data with foreign keys to dimensions"
+    columns:
+      - name: message_id
+        description: "Unique identifier for each message"
+        tests:
+          - not_null
+      - name: channel_key
+        description: "Foreign key to dim_channels"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_channels')
+              field: channel_key
+      - name: date_key
+        description: "Foreign key to dim_dates"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_dates')
+              field: date_key
+      - name: message_text
+        description: "Full text content of the message"
+      - name: message_length
+        description: "Length of message in characters"
+        tests:
+          - not_null
+      - name: view_count
+        description: "Number of views on the message"
+        tests:
+          - not_null
+      - name: forward_count
+        description: "Number of times message was forwarded"
+        tests:
+          - not_null
+      - name: has_image
+        description: "Whether message contains an image"
+        tests:
+          - not_null
+      - name: has_media
+        description: "Whether message contains any media"
+        tests:
+          - not_null
+      - name: scraped_at
+        description: "When message was scraped"
+      - name: message_date
+        description: "Date when message was posted"
+        tests:
+          - not_null
