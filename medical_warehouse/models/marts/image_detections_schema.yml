@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: fct_image_detections
+    description: "Image detections fact table integrating YOLO results with message data"
+    columns:
+      - name: message_id
+        description: "Unique identifier for each message"
+        tests:
+          - not_null
+      - name: channel_key
+        description: "Foreign key to dim_channels"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_channels')
+              field: channel_key
+      - name: date_key
+        description: "Foreign key to dim_dates"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_dates')
+              field: date_key
+      - name: image_path
+        description: "Path to the analyzed image"
+      - name: image_category
+        description: "Original content classification from YOLO"
+        tests:
+          - not_null
+      - name: calculated_category
+        description: "Recalculated content classification based on detection rules"
+        tests:
+          - not_null
+      - name: total_detections
+        description: "Total number of objects detected"
+        tests:
+          - not_null
+      - name: person_count
+        description: "Number of persons detected in the image"
+        tests:
+          - not_null
+      - name: product_count
+        description: "Number of product-like objects detected"
+        tests:
+          - not_null
+      - name: max_confidence
+        description: "Highest confidence score among all detections"
+      - name: avg_confidence
+        description: "Average confidence score across all detections"
+      - name: top_class
+        description: "Object class with the highest confidence score"
+      - name: top_confidence
+        description: "Confidence score of the top detection"
+      - name: detection_density
+        description: "Categorization of detection density (no_objects, few_objects, moderate_objects, many_objects)"
+        tests:
+          - not_null
+      - name: confidence_level
+        description: "Confidence level categorization (no_confidence, low_confidence, medium_confidence, high_confidence)"
+        tests:
+          - not_null
+      - name: processing_timestamp
+        description: "When the image was processed by YOLO"
